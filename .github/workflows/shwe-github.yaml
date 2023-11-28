@@ -123,7 +123,8 @@ jobs:
      DOCKER_USERNAME: shwetha12712712
      IMAGE_NAME: githubmaven
      TAG: ${{ github.run_number }}
-
+     CLUSTER_NAME: aks1
+     RESOURSE_GROUP: shwetharg
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
