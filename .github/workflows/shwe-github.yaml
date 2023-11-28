@@ -75,7 +75,7 @@ jobs:
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
         
     - name: Switch Kubernetes Context
-      run: kubectl config use-context your-context-name
+      run: kubectl config use-context shwe
 
     - name: deploy
       run: kubectl apply -f mavengithub.yaml
