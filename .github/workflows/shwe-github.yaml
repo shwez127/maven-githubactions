@@ -124,7 +124,7 @@ jobs:
       IMAGE_NAME: githubmaven
       TAG: ${{ github.run_number }}
       CLUSTER_NAME: aks1
-      RESOURCE_GROUP: shwetharg
+      RESOURCE: shwetharg
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -159,7 +159,7 @@ jobs:
         with:
           creds: ${{ secrets.SVC }}
           cluster-name: ${{ env.CLUSTER_NAME }}
-          resource-group: ${{ env.RESOURCE_GROUP }}
+          resource-group: ${{ env.RESOURCE }}
 
       - name: Deploy to Kubernetes
         uses: Azure/k8s-deploy@v1
