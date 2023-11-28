@@ -78,7 +78,7 @@ jobs:
       run: kubectl config use-context shwe
 
     - name: deploy
-      run: kubectl apply -f mavengithub.yaml
+      run: kubectl apply -f .github/workflows/mavengithub.yaml
     # - name: Deploy to Kubernetes
     #   uses: Azure/k8s-deploy@v1
     #   with:
