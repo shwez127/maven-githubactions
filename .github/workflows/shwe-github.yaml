@@ -1,3 +1,114 @@
+# name: Build Docker Image
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     env: 
+#      DOCKER_USERNAME: shwetha12712712
+#      IMAGE_NAME: githubmaven
+#      TAG: ${{ github.run_number }} # $GITHUB_RUN_NUMBE
+#      CLUSTER_NAME: aks1
+#      RESOURSE_GROUP: shwetharg
+     
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v2
+
+#       - name: Set up JDK 11
+#         uses: actions/setup-java@v2
+#         with:
+#           distribution: 'adopt'
+#           java-version: '11'
+
+#       - name: Build with Maven
+#         run: mvn clean package
+        
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ env.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER }}
+          
+#       - name: Build 
+#         run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
+        
+#       # - name: Run Trivy vulnerability scanner
+#       #   uses: aquasecurity/trivy-action@master
+#       #   continue-on-error: true
+#       #   with:
+#       #     image-ref: 'docker.io/${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}'
+#       #     format: 'table'
+#       #     exit-code: '1'
+#       #     ignore-unfixed: true
+#       #     vuln-type: 'os,library'
+#       #     severity: 'MEDIUM,HIGH,CRITICAL'
+      
+#       - name: Build and Push Docker Image
+#         run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+#   # deploy:
+#   #   # needs: build
+#   #   runs-on: ubuntu-latest
+#   #   steps: 
+#   #     - name: Set up Kubernetes
+#   #       uses: azure/k8s-set-context@v1
+#   #       with:
+#   #         kubeconfig: ${{ secrets.KUBE_CONFIG }}
+#       # - name: Set up Kubernetes
+#       #   run: |
+#       #     kubectl config use-context shwe
+#       #     kubectl config view --minify --namespace=shwe --raw > kubeconfig.yaml
+#       #     export KUBECONFIG=$(pwd)/kubeconfig.yaml
+#         # uses: Azure/k8s-deploy@v1
+#         # with:
+#         #   manifests: kubernetes/mssql-pv.azure.yaml
+#   # deploy:
+#     # needs: build
+#     # runs-on: ubuntu-latest
+#     # steps:
+#     # - name: Set up Kubernetes
+#     #   uses: azure/k8s-set-context@v1
+#     #   with:
+#     #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
+    
+
+# # Set the target AKS cluster
+
+#   deploy:
+#   - uses: Azure/aks-set-context@v1
+#     with:
+#       creds: ${{ secrets.SVC }}
+#       cluster-name: ${{ env.CLUSTER_NAME }}
+#       resource-group: ${{ env.RESOURSE_GROUP }}
+
+#   - uses: Azure/k8s-deploy@v1
+#     with:
+#       manifests: shwe-github.yaml
+
+
+
+    
+    # - name: Switch Kubernetes Context
+    #   run: kubectl config use-context shwe
+
+    # - name: deploy
+    #   run: kubectl apply -f .github/workflows/mavengithub.yaml
+    # - name: Deploy to Kubernetes
+    #   uses: Azure/k8s-deploy@v1
+    #   with:
+    #     manifests: .github/workflows/mavengithub.yaml
+    # - name: Deploy to the Kubernetes cluster
+    #     uses: azure/k8s-deploy@v1
+    #     with:
+    #       namespace: shwe
+    #       manifests: |
+    #         .github/workflows/mavengithub.yaml
+            
 name: Build Docker Image
 
 on:
@@ -11,10 +122,8 @@ jobs:
     env: 
      DOCKER_USERNAME: shwetha12712712
      IMAGE_NAME: githubmaven
-     TAG: ${{ github.run_number }} # $GITHUB_RUN_NUMBE
-     CLUSTER_NAME: aks1
-     RESOURSE_GROUP: shwetharg
-     
+     TAG: ${{ github.run_number }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -37,77 +146,27 @@ jobs:
       - name: Build 
         run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
         
-      # - name: Run Trivy vulnerability scanner
-      #   uses: aquasecurity/trivy-action@master
-      #   continue-on-error: true
-      #   with:
-      #     image-ref: 'docker.io/${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}'
-      #     format: 'table'
-      #     exit-code: '1'
-      #     ignore-unfixed: true
-      #     vuln-type: 'os,library'
-      #     severity: 'MEDIUM,HIGH,CRITICAL'
-      
       - name: Build and Push Docker Image
         run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
 
-  # deploy:
-  #   # needs: build
-  #   runs-on: ubuntu-latest
-  #   steps: 
-  #     - name: Set up Kubernetes
-  #       uses: azure/k8s-set-context@v1
-  #       with:
-  #         kubeconfig: ${{ secrets.KUBE_CONFIG }}
-      # - name: Set up Kubernetes
-      #   run: |
-      #     kubectl config use-context shwe
-      #     kubectl config view --minify --namespace=shwe --raw > kubeconfig.yaml
-      #     export KUBECONFIG=$(pwd)/kubeconfig.yaml
-        # uses: Azure/k8s-deploy@v1
-        # with:
-        #   manifests: kubernetes/mssql-pv.azure.yaml
-  # deploy:
-    # needs: build
-    # runs-on: ubuntu-latest
-    # steps:
-    # - name: Set up Kubernetes
-    #   uses: azure/k8s-set-context@v1
-    #   with:
-    #     kubeconfig: ${{ secrets.KUBE_CONFIG }}
-    
-
-# Set the target AKS cluster
-
   deploy:
-  - uses: Azure/aks-set-context@v1
-    with:
-      creds: ${{ secrets.SVC }}
-      cluster-name: ${{ env.CLUSTER_NAME }}
-      resource-group: ${{ env.RESOURSE_GROUP }}
-
-  - uses: Azure/k8s-deploy@v1
-    with:
-      manifests: shwe-github.yaml
-
-
-
-    
-    # - name: Switch Kubernetes Context
-    #   run: kubectl config use-context shwe
-
-    # - name: deploy
-    #   run: kubectl apply -f .github/workflows/mavengithub.yaml
-    # - name: Deploy to Kubernetes
-    #   uses: Azure/k8s-deploy@v1
-    #   with:
-    #     manifests: .github/workflows/mavengithub.yaml
-    # - name: Deploy to the Kubernetes cluster
-    #     uses: azure/k8s-deploy@v1
+    runs-on: ubuntu-latest
+    steps:
+    #   - name: Set up Kubernetes
+    #     uses: azure/k8s-set-context@v1
     #     with:
-    #       namespace: shwe
-    #       manifests: |
-    #         .github/workflows/mavengithub.yaml
-            
+    #       kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      
+      - name: Set up AKS Context
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.SVC }}
+          cluster-name: ${{ env.CLUSTER_NAME }}
+          resource-group: ${{ env.RESOURSE_GROUP }}
+
+      - name: Deploy to Kubernetes
+        uses: Azure/k8s-deploy@v1
+        with:
+          manifests: shwe-github.yaml
 
 
