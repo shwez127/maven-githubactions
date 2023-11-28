@@ -73,6 +73,9 @@ jobs:
       uses: azure/k8s-set-context@v1
       with:
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
+        
+    - name: Switch Kubernetes Context
+      run: kubectl config use-context your-context-name
 
     - name: deploy
       run: kubectl apply -f mavengithub.yaml
