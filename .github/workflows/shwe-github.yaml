@@ -158,7 +158,7 @@ jobs:
         uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.SVC }}
-          cluster-name: ${{ env.CLUSTER_NAME }}
+          cluster-name: aks1
           resource-group: shwetharg
 
       - name: Deploy to Kubernetes
