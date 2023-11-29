@@ -122,7 +122,6 @@ jobs:
     env:
       DOCKER_USERNAME: shwetha12712712
       IMAGE_NAME: githubmaven
-      TAG: ${{ github.run_number }}
       CLUSTER_NAME: aks1
       RESOURCE: shwetharg
 
@@ -145,67 +144,27 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER }}
 
-      - name: Build
-        run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }} .
+      - name: Build 
+        run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} .
 
       - name: Build and Push Docker Image
-        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
-
-      - name: Archive artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: maven-artifacts
-          path: ./ # Specifies the directory to upload
+        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: maven-artifacts
-          path: ./ # Specifies the directory to download
-
-      - name: Check Workspace Contents
-        run: |
-          ls -R
-          pwd
-
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'v1.21.3'
-        id: install
-
-      - name: Debug Information
-        run: |
-          echo "Current Directory: $(pwd)"
-          echo "Contents of kuber directory: $(ls kuber)"
-
       - name: Set up AKS Context
         uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.SVC }}
           cluster-name: aks1
           resource-group: shwetharg
-          
-      - name: Cat Updated YAML File
-        run: cat kuber/mavengithub.yaml
-        
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     kubectl apply -f kuber/mavengithub.yaml
-
-      - name: Substitute Environment Variables
-        run: |
-          export TAG=${{ github.run_number }}
-          envsubst < kuber/mavengithub.yaml | tee kuber/mavengithub_deployed.yaml
-
 
       - name: Deploy to Kubernetes
-        run: kubectl apply -f kuber/mavengithub_deployed.yaml
+        run: kubectl apply -f kuber/mavengithub.yaml
+
 
 
 
