@@ -4,10 +4,7 @@ metadata:
   name: mavenwebappdeployment
   namespace: shwe
 spec:
-  #revisionHistoryLimit: 10
   replicas: 3
-  # strategy:
-  #   type: Recreate
   selector:
     matchLabels:
       app: mavenwebapp
@@ -19,7 +16,7 @@ spec:
     spec:   
       containers:
         - name: mavenwebappcontainer
-          image: shwetha12712712/githubmaven:${{ env.TAG }}
+          image: shwetha12712712/githubmaven:${{ github.run_number }}
           ports:
             - containerPort: 8080
 ---
@@ -30,7 +27,6 @@ metadata:
 spec:
   selector:
     app: mavenwebapp
-  # type: NodePort
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
