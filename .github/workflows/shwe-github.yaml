@@ -190,17 +190,24 @@ jobs:
           creds: ${{ secrets.SVC }}
           cluster-name: aks1
           resource-group: shwetharg
+          
+      - name: Substitute Environment Variables
+        run: |
+          sed -i "s/\${{ env.TAG }}/${{ github.run_number }}/g" kuber/mavengithub.yaml
 
+      - name: Cat Updated YAML File
+        run: cat kuber/mavengithub.yaml
+        
       # - name: Deploy to Kubernetes
       #   run: |
       #     kubectl apply -f kuber/mavengithub.yaml
 
-      - name: Substitute Environment Variables
-        run: |
-          envsubst < kuber/mavengithub.yaml | tee kuber/mavengithub_deployed.yaml
+      # - name: Substitute Environment Variables
+      #   run: |
+      #     envsubst < kuber/mavengithub.yaml | tee kuber/mavengithub_deployed.yaml
 
-      - name: Deploy to Kubernetes
-        run: kubectl apply -f kuber/mavengithub_deployed.yaml
+      # - name: Deploy to Kubernetes
+      #   run: kubectl apply -f kuber/mavengithub_deployed.yaml
 
 
 
