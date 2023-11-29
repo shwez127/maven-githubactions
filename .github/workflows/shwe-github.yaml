@@ -198,9 +198,12 @@ jobs:
       - name: Substitute Environment Variables
         run: |
           envsubst < kuber/mavengithub.yaml | tee kuber/mavengithub.yaml
-
-      - name: Deploy to Kubernetes
-        run: kubectl apply -f kuber/mavengithub.yaml
+      - name: Debug Information
+        run: |
+          cat kuber/mavengithub.yaml
+        
+      # - name: Deploy to Kubernetes
+      #   run: kubectl apply -f kuber/mavengithub.yaml
 
 
 
