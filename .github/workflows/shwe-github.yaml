@@ -155,7 +155,10 @@ jobs:
     # needs: build
     steps:
       - name: Check Workspace Contents
-        run: ls -R
+        run: |
+          ls -R
+          pwd
+
 
       - name: install kubectl
         uses: azure/setup-kubectl@v1
