@@ -191,9 +191,16 @@ jobs:
           cluster-name: aks1
           resource-group: shwetharg
 
-      - name: Deploy to Kubernetes
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     kubectl apply -f kuber/mavengithub.yaml
+
+      - name: Substitute Environment Variables
         run: |
-          kubectl apply -f kuber/mavengithub.yaml
+          envsubst < kuber/mavengithub.yaml | tee kuber/mavengithub.yaml
+
+      - name: Deploy to Kubernetes
+        run: kubectl apply -f kuber/mavengithub.yaml
 
 
 
