@@ -155,6 +155,11 @@ jobs:
     needs: build
 
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: maven-artifacts
+          path: ./
       - name: Set up AKS Context
         uses: Azure/aks-set-context@v1
         with:
