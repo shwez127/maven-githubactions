@@ -154,6 +154,9 @@ jobs:
     runs-on: ubuntu-latest
     # needs: build
     steps:
+      - name: Check Workspace Contents
+        run: ls -R
+
       - name: install kubectl
         uses: azure/setup-kubectl@v1
         with: 
