@@ -175,18 +175,18 @@ jobs:
         # echo "::set-env name=BUILD_NUMBER::${{ github.run_number }}"
 
       
-    # - name: Cat Updated YAML File
-    #   run: cat kuber/mavengithub.yaml   
+    - name: Cat Updated YAML File
+      run: cat kuber/mavengithub.yaml   
 
-    # - name: Set up AKS Context
-    #   uses: Azure/aks-set-context@v1
-    #   with:
-    #     creds: ${{ secrets.SVC }}
-    #     cluster-name: aks1
-    #     resource-group: shwetharg
+    - name: Set up AKS Context
+      uses: Azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.SVC }}
+        cluster-name: aks1
+        resource-group: shwetharg
 
-    # - name: Deploy to Kubernetes
-    #   run: kubectl apply -f kuber/mavengithub.yaml
+    - name: Deploy to Kubernetes
+      run: kubectl apply -f kuber/mavengithub.yaml
 
 
 
