@@ -148,7 +148,7 @@ jobs:
         run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$GITHUB_RUN_NUMBER .
 
       - name: Build and Push Docker Image
-        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$GITHUB_RUN_NUMBER}}
+        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$GITHUB_RUN_NUMBER
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
