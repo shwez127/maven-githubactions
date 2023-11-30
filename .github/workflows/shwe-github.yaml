@@ -145,10 +145,10 @@ jobs:
           password: ${{ secrets.DOCKER }}
 
       - name: Build 
-        run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} .
+        run: docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$GITHUB_RUN_NUMBER
 
       - name: Build and Push Docker Image
-        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+        run: docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$GITHUB_RUN_NUMBER}}
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
@@ -160,7 +160,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-
+    # env:
+    #   IMAGE_TAG: $${{ github.run_number }}
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
