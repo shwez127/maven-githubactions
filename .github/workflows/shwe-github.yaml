@@ -171,7 +171,7 @@ jobs:
     - name: Debug Run Number
       run: |
         echo "Run Number: ${{ github.run_number }}"
-        echo "::set-env name=BUILD_NUMBER::${{ github.run_number }}"
+        # echo "::set-env name=BUILD_NUMBER::${{ github.run_number }}"
 
       
     # - name: Cat Updated YAML File
