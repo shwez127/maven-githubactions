@@ -185,8 +185,10 @@ jobs:
         cluster-name: aks1
         resource-group: shwetharg
 
-    - name: Deploy to Kubernetes
-      run: kubectl apply -f kuber/mavengithub.yaml
+    - name: Update Kubernetes Deployment
+      run: |
+        sed -i "s|image: shwetha12712712/githubmaven:.*$|image: shwetha12712712/githubmaven:$GITHUB_RUN_NUMBER|" kuber/mavengithub.yaml
+        kubectl apply -f kuber/mavengithub.yaml
 
 
 
