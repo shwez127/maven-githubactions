@@ -168,6 +168,9 @@ jobs:
           name: maven-artifacts
           path: ./
           
+      - name: Cat Updated YAML File
+        run: cat kuber/mavengithub.yaml   
+        
       - name: Set up AKS Context
         uses: Azure/aks-set-context@v1
         with:
